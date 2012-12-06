@@ -6,9 +6,7 @@ PVector = _RT.vector
 PMap = _RT.map
 PSet = _RT.set
 
-into = _clj.into
 count = _clj.count
-#empty = _clj.empty
 first = _clj.first
 rest = _clj.rest
 conj = _clj.conj
@@ -66,6 +64,8 @@ zipmap = _clj.zipmap
 #set = _clj.set
 #sorted-set = _clj.sorted-set
 
+seq = _clj.seq
+
 def toPyper(coll):
     constr = None
     if isinstance(coll, list):
@@ -78,10 +78,4 @@ def toPyper(coll):
         constr = PSet
     else:
         return coll
-    return constr(*[toPyper(x) for x in coll])
-
-def pipe(*args):
-    return reduce(lambda x, y: y(x), args)
-
-def curry(fun, *args):
-    return lambda arg: fun(*((arg,) + args))
+    return constr(*[toPyper(x) for x in seq(coll)])
